@@ -30,7 +30,7 @@ Improve server, and pushes go live on their Improve site immediately.
     "goal": "I want to sleep better",
     "answers": [{ "q": "question asked", "a": "user's answer" }],
     "recommended": ["card titles that were proposed"],
-    "decisions": { "card title": "accepted" | "already_does" },
+    "decisions": { "card title": "accepted" | "already_does" | "too_annoying" | "skipped" },
     "discussion": [{ "text": "things the user said about the cards" }]
   }
 ]
