@@ -51,6 +51,11 @@ Improve server, and pushes go live on their Improve site immediately.
     "days": 5,                    // planned length
     "risk": "likeliest derailer (premortem)",
     "fallback": "minimum version for a hard day",
+    // Optional: Apple Health metric that measures this trial's outcome
+    // passively on the user's iPhone. One of: sleep, steps, exercise,
+    // resting_heart_rate, hrv, weight, mindfulness. Health SAMPLES never
+    // appear in this repo — only on-device summaries the user was shown.
+    "metric": "sleep",
     "checkIns": [
       {
         "at": "ISO timestamp",
