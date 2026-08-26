@@ -56,6 +56,13 @@ Improve server, and pushes go live on their Improve site immediately.
     // resting_heart_rate, hrv, weight, mindfulness. Health SAMPLES never
     // appear in this repo — only on-device summaries the user was shown.
     "metric": "sleep",
+    // Optional: the check-in reminder offer (strictly opt-in). "reminders"
+    // is the user's recorded answer — absent means never answered, and no
+    // client schedules anything then. remindAt/remindText are the coach's
+    // proposed nudge plan (time may be user-adjusted; kept even on "no").
+    "reminders": "yes" | "no",
+    "remindAt": "17:00",          // 24-hour HH:MM
+    "remindText": "one-line nudge text",
     "checkIns": [
       {
         "at": "ISO timestamp",
