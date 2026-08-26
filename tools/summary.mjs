@@ -20,7 +20,7 @@ if (active.length) {
     console.log(`    predicted: ${t.expect}`);
     const marks = tally(t.checkIns);
     if (marks) console.log(`    check-ins: ${marks}`);
-    for (const c of t.checkIns) {
+    for (const c of t.checkIns ?? []) {
       if (c.note) console.log(`    got in the way (${day(c.at)}): ${c.note}`);
     }
   }

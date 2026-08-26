@@ -1,0 +1,14 @@
+{
+  "name": "improve-local",
+  "private": true,
+  "description": "Open workbench for your Improve data — clone your data repo inside and point any agent at it",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "summary": "node tools/summary.mjs",
+    "timeline": "node tools/timeline.mjs"
+  }
+}
