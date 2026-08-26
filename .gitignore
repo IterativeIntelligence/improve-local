@@ -1,0 +1,3 @@
+# The user's own data repo, cloned inside this one — never committed here.
+data/
+node_modules/
