@@ -92,6 +92,13 @@ Useful derived facts: adherence comes from `checkIns` (labels weighted by
 `days`); `status: "habit"` means the user kept it and it is current
 practice; chains of `supersedes` show how a protocol evolved.
 
+### `data/app.json` — iPhone-app marker (optional, server-written)
+
+`{"firstSeenAt": "ISO timestamp"}`, written by the server on the
+account's first request from the native iPhone app. Its presence is how
+the web app knows app-channel nudges can actually fire; don't create or
+edit it by hand.
+
 ### `data/library/` — your personal study library (optional)
 
 Papers you (or your agents) have ingested for yourself, in the StudyFlow
