@@ -63,6 +63,11 @@ Improve server, and pushes go live on their Improve site immediately.
     "reminders": "yes" | "no",
     "remindAt": "17:00",          // 24-hour HH:MM
     "remindText": "one-line nudge text",
+    // Optional: where an opted-in nudge lands — the iPhone app's local
+    // notifications (default) or iMessage. remindPhone is the number the
+    // user gave for texting (present only for the imessage channel).
+    "remindChannel": "app" | "imessage",
+    "remindPhone": "+15550100100",
     "checkIns": [
       {
         "at": "ISO timestamp",
