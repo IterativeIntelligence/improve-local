@@ -87,6 +87,24 @@ Useful derived facts: adherence comes from `checkIns` (labels weighted by
 `days`); `status: "habit"` means the user kept it and it is current
 practice; chains of `supersedes` show how a protocol evolved.
 
+### `data/library/` — your personal study library (optional)
+
+Papers you (or your agents) have ingested for yourself, in the StudyFlow
+DSL — the same facts-only language the shared Improve library uses (spec:
+the `library/SPEC.md` + `INGEST.md` published from the Improve app repo;
+any study record you hold a link to is also fetchable as plain text at
+`https://meetimprove.com/api/study/<id>/raw`).
+
+- `library/<id>.study` — the extracted facts (id: `[a-z0-9-]+`, e.g.
+  `firstauthor-year-topic`). Push it and the Improve site lists it under
+  "Your library" and renders it at `/study/<id>`.
+- `library/<id>.pdf` — the source PDF, same basename. Stays private to
+  you; the site serves it back only to you, and the study title on the
+  viewer page opens it.
+
+Ingest with your own agent: read the paper's PDF natively, write the
+`.study` file per the StudyFlow spec, put both files here, push.
+
 ## Tools
 
 - `node tools/summary.mjs [data-dir]` — current state: live trials, kept
