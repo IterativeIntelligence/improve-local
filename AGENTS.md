@@ -102,6 +102,10 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "horizonDays": 90,
     "trendDirection": "up" | "down",
     "curveShape": "linear" | "accelerating" | "decelerating" | "sigmoid",
+    // Optional model-committed forecast checkpoints (SPECS.md C-26) in the
+    // yAxis units: day 0 = baseline, last day = horizonDays; the wrap-up
+    // scores typed readings against this band.
+    "forecast": [{ "day": 0, "low": 142, "high": 142 }, { "day": 90, "low": 133, "high": 138 }],
     "baselineLabel": "≈142 systolic, morning avg",
     "need": 8,
     "checkIns": [
