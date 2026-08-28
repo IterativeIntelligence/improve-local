@@ -82,6 +82,7 @@ Improve server, and pushes go live on their Improve site immediately.
     "outcomeQuestion": "weigh-ins down?",
     "horizonDays": 90,
     "trendDirection": "up" | "down",
+    "curveShape": "linear" | "accelerating" | "decelerating" | "sigmoid",
     "baselineLabel": "≈142 systolic, morning avg",
     "need": 8,
     "checkIns": [
