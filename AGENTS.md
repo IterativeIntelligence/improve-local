@@ -31,10 +31,24 @@ Improve server, and pushes go live on their Improve site immediately.
     "answers": [{ "q": "question asked", "a": "user's answer" }],
     "recommended": ["card titles that were proposed"],
     "decisions": { "card title": "accepted" | "already_does" | "too_annoying" | "skipped" },
-    "discussion": [{ "text": "things the user said about the cards" }]
+    "discussion": [{ "text": "things the user said about the cards" }],
+    // Optional: id of the saved web conversation this session came from —
+    // conversations/<convId>.json in this repo. Absent on older entries.
+    "convId": "uuid"
   }
 ]
 ```
+
+### `data/conversations/` — saved web conversations (server-written)
+
+One `conversations/<uuid>.json` per web goal conversation:
+`{ id, goal, startedAt, updatedAt, snapshot }`. `snapshot` is the web
+client's full UI state, autosaved so the Improve home page can list every
+goal conversation and reopen it — treat it as opaque client state (its
+shape follows the web app's resume snapshot and can change between app
+versions). The durable facts an agent should read live in `history.json`
+and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
+100 are pruned by the server (their `history.json` entries remain).
 
 ### `data/trials.json` — trials and habits, newest last
 
@@ -129,6 +143,28 @@ specific date range and resolution for the phone to upload on its next sync.
 account's first request from the native iPhone app. Its presence is how
 the web app knows app-channel nudges can actually fire; don't create or
 edit it by hand.
+
+### `data/modules/` — data-source modules (optional)
+
+One directory per connected data source (CPAP machine, Oura ring,
+Withings scale, genome files, …). The code for each lives in this repo
+under `modules/<name>/`; the data it collects lives in the user's repo
+under `data/modules/<name>/`, in files documented by that module's
+README. Shared conventions (see `modules/SPEC.md` §3): `daily.ndjson`
+is one JSON line per day with a `date` field where the **last line per
+date wins**; `raw/YYYY-MM.ndjson` holds prunable high-frequency
+samples; `connection.json` is non-secret connection state — its
+presence means the module is connected. Secrets never live in the data
+repo (local connectors keep them in the gitignored `secrets/`).
+
+Work with modules through `node tools/modules.mjs`
+(`list` / `serve` / `connect` / `sync` / `import` / `validate` /
+`run`). When analyzing a user's health data, check `data/modules/` (and
+the legacy `data/health/`) for what's actually available before
+assuming. If the user opted their full genome into the repo,
+`data/modules/genomics/sources.json` points at it (`full_file`) and
+`node tools/modules.mjs run genomics lookup <rsid…>` answers genotype
+queries; report genotypes and sourced associations, never diagnoses.
 
 ### `data/library/` — your personal study library (optional)
 
