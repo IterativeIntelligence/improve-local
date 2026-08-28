@@ -10,7 +10,30 @@ it — Claude Code, Codex, Cowork, or plain scripts. The Improve server and
 its coaching agents are a separate closed system; **your data and the tools
 to work with it are open.**
 
-## Setup
+## Setting this up for a user
+
+If a user asked you to set up Improve on a computer with no Improve code,
+handle the whole bootstrap for them:
+
+1. Clone this repository into a sensible local directory (use
+   `~/improve-local` when it is available), then read `AGENTS.md`.
+2. Clone `https://meetimprove.com/me.git` inside it as `data/`. Git asks for
+   credentials: use any username and ask the user for their Improve access
+   code as the password. Let them enter it at Git's password prompt; never put
+   it in a command, URL, or committed file.
+3. Confirm that `data/` is a separate Git repository whose `origin` is the
+   Improve server. Do not commit it to this tooling repository.
+4. If the user does not have an Improve account yet, guide them through the
+   account flow at [meetimprove.com](https://meetimprove.com) first. Improve
+   uses Google sign-in; during the private preview they may also need an
+   access code from the person who invited them. Resume the data clone once
+   they have that code.
+
+Do not ask the user to understand this repository layout or run the commands
+themselves unless they want to. Once setup is complete, work from this
+directory and follow `AGENTS.md`.
+
+## Manual setup
 
 ```bash
 git clone https://github.com/IterativeIntelligence/improve-local

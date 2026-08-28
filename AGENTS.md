@@ -53,8 +53,8 @@ Improve server, and pushes go live on their Improve site immediately.
     "fallback": "minimum version for a hard day",
     // Optional: Apple Health metric that measures this trial's outcome
     // passively on the user's iPhone. One of: sleep, steps, exercise,
-    // resting_heart_rate, hrv, weight, mindfulness. Health SAMPLES never
-    // appear in this repo — only on-device summaries the user was shown.
+    // resting_heart_rate, hrv, weight, mindfulness. Granted Health data also
+    // syncs under data/health/ as documented below.
     "metric": "sleep",
     // Optional: the check-in reminder offer (strictly opt-in). "reminders"
     // is the user's recorded answer — absent means never answered, and no
@@ -91,6 +91,14 @@ Improve server, and pushes go live on their Improve site immediately.
 Useful derived facts: adherence comes from `checkIns` (labels weighted by
 `days`); `status: "habit"` means the user kept it and it is current
 practice; chains of `supersedes` show how a protocol evolved.
+
+### `data/health/` — granted Apple Health data (optional)
+
+`health/<metric>/daily.ndjson` holds compact daily rollups reaching far back;
+`health/<metric>/raw/YYYY-MM.ndjson` holds high-frequency samples for recent
+weeks and explicitly kept windows. Older raw samples are pruned while daily
+rollups remain. `health/requests.json` lets the user or an agent request a
+specific date range and resolution for the phone to upload on its next sync.
 
 ### `data/app.json` — iPhone-app marker (optional, server-written)
 
