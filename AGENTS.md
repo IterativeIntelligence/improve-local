@@ -68,12 +68,29 @@ Improve server, and pushes go live on their Improve site immediately.
     // user gave for texting (present only for the imessage channel).
     "remindChannel": "app" | "imessage",
     "remindPhone": "+15550100100",
+    // Optional: how the outcome gets read. "manual" = the user types a
+    // reading with the daily tap (see checkIns[].value), "health" = the
+    // iPhone app's Apple Health share, "none" = judged by feel at wrap-up.
+    // Absent = the question was never asked (older trials).
+    "measurement": "manual" | "health" | "none",
+    // Optional outcome-display fields carried from the accepted card, so
+    // clients can show the target without the card: the expected outcome
+    // ("−3–5 lb"), the horizon question ("weigh-ins down?"), days until
+    // the outcome is judged, which way the metric moves, the baseline
+    // label, and how many taps make a fair test.
+    "heroStat": "−3–5 lb",
+    "outcomeQuestion": "weigh-ins down?",
+    "horizonDays": 90,
+    "trendDirection": "up" | "down",
+    "baselineLabel": "≈142 systolic, morning avg",
+    "need": 8,
     "checkIns": [
       {
         "at": "ISO timestamp",
         "label": "Yes | Partly | Not today | Every day | Most days | …",
         "days": 2,                // how many days this one tap covers
-        "note": "what got in the way (optional)"
+        "note": "what got in the way (optional)",
+        "value": 171.4            // optional typed outcome reading (T-10)
       }
     ],
     "review": [{ "from": "user" | "coach", "text": "wrap-up turns" }],
