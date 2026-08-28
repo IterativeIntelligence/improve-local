@@ -28,6 +28,9 @@ Improve server, and pushes go live on their Improve site immediately.
   {
     "at": "2026-08-26T17:00:00.000Z",   // when the session happened
     "goal": "I want to sleep better",
+    // Optional: very short LM-generated display title for the goal —
+    // what the Improve goals list shows. Absent on older entries.
+    "title": "Better sleep",
     "answers": [{ "q": "question asked", "a": "user's answer" }],
     "recommended": ["card titles that were proposed"],
     "decisions": { "card title": "accepted" | "already_does" | "too_annoying" | "skipped" },
@@ -42,7 +45,8 @@ Improve server, and pushes go live on their Improve site immediately.
 ### `data/conversations/` — saved web conversations (server-written)
 
 One `conversations/<uuid>.json` per web goal conversation:
-`{ id, goal, startedAt, updatedAt, snapshot }`. `snapshot` is the web
+`{ id, goal, title?, startedAt, updatedAt, snapshot }` (`title` is the
+goal's short display title, when one was generated). `snapshot` is the web
 client's full UI state, autosaved so the Improve home page can list every
 goal conversation and reopen it — treat it as opaque client state (its
 shape follows the web app's resume snapshot and can change between app
