@@ -80,6 +80,11 @@ Improve server, and pushes go live on their Improve site immediately.
     // label, and how many taps make a fair test.
     "heroStat": "−3–5 lb",
     "outcomeQuestion": "weigh-ins down?",
+    // The chart's honesty pair (SPECS.md C-25): the outcome chart's y-axis
+    // label with real units, and how that quantity is measured as part of
+    // the plan (the check-in tap, a scheduled reading, or Apple Health).
+    "yAxis": "morning weight (lb)",
+    "measure": "weigh-in with Friday's coffee",
     "horizonDays": 90,
     "trendDirection": "up" | "down",
     "curveShape": "linear" | "accelerating" | "decelerating" | "sigmoid",
