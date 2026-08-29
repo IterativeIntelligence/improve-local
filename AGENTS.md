@@ -35,6 +35,10 @@ Improve server, and pushes go live on their Improve site immediately.
     "recommended": ["card titles that were proposed"],
     "decisions": { "card title": "accepted" | "already_does" | "too_annoying" | "skipped" },
     "discussion": [{ "text": "things the user said about the cards" }],
+    // Optional: card revisions the coach agreed to while discussing the
+    // cards — the latest agreed protocol per card title; future cards for
+    // this goal are expected to respect them. Absent on older entries.
+    "amendments": [{ "title": "card title", "how": "the agreed protocol" }],
     // Optional: id of the saved web conversation this session came from —
     // conversations/<convId>.json in this repo. Absent on older entries.
     "convId": "uuid"
