@@ -134,8 +134,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // Canonical meaning of the whole span. Older rows may omit this;
         // derive it from label. Only Yes/Every day are "did". Partly,
         // Most days, A few days, and Mostly are "partial" aggregate reports
-        // whose exact day-by-day completions are unknown.
-        "adherence": "did" | "partial" | "missed",
+        // whose exact day-by-day completions are unknown. No opportunity is
+        // "not_applicable" and stays outside adherence denominators.
+        "adherence": "did" | "partial" | "missed" | "not_applicable",
         // Present on sparse-cadence trials: the scheduled trial-day report
         // this row answers (for example 4, 7, 11… for twice_weekly).
         "scheduledDay": 4,
