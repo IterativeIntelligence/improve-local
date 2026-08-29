@@ -129,7 +129,13 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // when the protocol had no valid chance to happen. It is stored as
         // context but excluded from adherence, streaks, and success claims.
         "label": "Yes | Partly | Not today | No opportunity | Every day | Most days | …",
-        "days": 2,                // how many days this one tap covers
+        // Elapsed span this one tap covers, never a completion count.
+        "days": 2,
+        // Canonical meaning of the whole span. Older rows may omit this;
+        // derive it from label. Only Yes/Every day are "did". Partly,
+        // Most days, A few days, and Mostly are "partial" aggregate reports
+        // whose exact day-by-day completions are unknown.
+        "adherence": "did" | "partial" | "missed",
         // Present on sparse-cadence trials: the scheduled trial-day report
         // this row answers (for example 4, 7, 11… for twice_weekly).
         "scheduledDay": 4,
@@ -151,8 +157,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
 ]
 ```
 
-Useful derived facts: adherence comes from applicable `checkIns` (labels
-weighted by `days`); `No opportunity` spans are neutral and stay outside the
+Useful derived facts: adherence comes from applicable `checkIns`
+(`adherence` weighted by `days`, with partial spans receiving half credit);
+`No opportunity` spans are neutral and stay outside the
 denominator rather than counting as success or failure. For sparse
 `checkInCadence`, only scheduled opportunities count toward tracking progress
 and reminder/analytics denominators; calendar days between them are not misses,
