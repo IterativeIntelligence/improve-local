@@ -100,10 +100,32 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "remindAt": "17:00",          // 24-hour HH:MM
     "remindText": "one-line nudge text",
     // Optional: where an opted-in nudge lands — the iPhone app's local
-    // notifications (default) or iMessage. remindPhone is the number the
-    // user gave for texting (present only for the imessage channel).
-    "remindChannel": "app" | "imessage",
+    // notifications or Linq text (auto-selecting iMessage/RCS/SMS).
+    // "imessage" may appear only on older, never-activated records.
+    "remindChannel": "app" | "text" | "imessage",
     "remindPhone": "+15550100100",
+    "remindTimeZone": "America/Los_Angeles", // IANA zone for server text
+    // Text consent is yes above, while this state says whether delivery is
+    // actually usable. Pending requires the user's inbound setup text;
+    // failed/stopped states do not deliver. activationCodeHash is temporary.
+    "textReminder": {
+      "status": "pending" | "active" | "failed" | "stopped",
+      "activationCodeHash": "sha256 hex (pending only)",
+      "setupNumber": "+15550100999",
+      "activatedAt": "ISO timestamp",
+      "stoppedAt": "ISO timestamp",
+      "lastError": "short delivery failure (optional)",
+      "deliveries": [{
+        "key": "stable opportunity/idempotency key",
+        "scheduledFor": "local timestamp plus [IANA zone]",
+        "attemptedAt": "ISO timestamp",
+        "updatedAt": "ISO timestamp",
+        "status": "attempting" | "accepted" | "sent" | "delivered" | "failed",
+        "messageId": "Linq message id (optional)",
+        "service": "iMessage" | "RCS" | "SMS",
+        "errorCode": 2024
+      }]
+    },
     // Optional: how the outcome gets read. "manual" = the user types a
     // reading with each scheduled tap (see checkIns[].value), "health" = the
     // iPhone app's Apple Health share, "none" = judged by feel at wrap-up.
