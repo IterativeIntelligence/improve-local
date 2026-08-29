@@ -92,8 +92,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "fallback": "minimum version for a hard day",
     // Optional: Apple Health metric that measures this trial's outcome
     // passively on the user's iPhone. One of: sleep, steps, exercise,
-    // resting_heart_rate, hrv, weight, mindfulness. Granted Health data also
-    // syncs under data/health/ as documented below.
+    // resting_heart_rate, hrv, weight, mindfulness, blood_pressure,
+    // blood_glucose. Granted Health data also syncs under data/health/ as
+    // documented below.
     "metric": "sleep",
     // Optional: the check-in reminder offer (strictly opt-in). "reminders"
     // is the user's recorded answer — absent means never answered, and no
@@ -237,7 +238,9 @@ a streak.
 
 ### `data/health/` — granted Apple Health data (optional)
 
-`health/<metric>/daily.ndjson` holds compact daily rollups reaching far back;
+`health/<metric>/daily.ndjson` holds compact daily rollups reaching far back
+(per-metric line shapes; e.g. blood_pressure `{d, sys, dia, n}` in mmHg,
+blood_glucose `{d, avg, lo, hi, n}` in mg/dL);
 `health/<metric>/raw/YYYY-MM.ndjson` holds high-frequency samples for recent
 weeks and explicitly kept windows. Older raw samples are pruned while daily
 rollups remain. `health/requests.json` lets the user or an agent request a
