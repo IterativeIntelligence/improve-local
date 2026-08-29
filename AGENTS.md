@@ -109,6 +109,14 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     // iPhone app's Apple Health share, "none" = judged by feel at wrap-up.
     // Absent = the question was never asked (older trials).
     "measurement": "manual" | "health" | "none",
+    // Optional accepted schema for the reading collected at each scheduled
+    // check-in. A boolean outcome is represented by the check-in label itself
+    // and has no checkIns[].value. A numeric outcome may carry value only when
+    // both its metric and unit were defined. Older schema-less trials with an
+    // already-stored finite value remain legacy numeric trials.
+    "outcomeMeasure":
+      { "type": "boolean", "metric": "named mark before noon" }
+      | { "type": "number", "metric": "morning weight", "unit": "lb" },
     // Optional outcome-display fields carried from the accepted card, so
     // clients can show the target without the card: the expected outcome
     // ("−3–5 lb"), the horizon question ("weigh-ins down?"), days until
@@ -154,7 +162,8 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // note/value are absent for "No opportunity": there was no barrier
         // to explain and no protocol-linked outcome reading to attribute.
         "note": "what got in the way (optional)",
-        "value": 171.4            // optional typed outcome reading (T-10)
+        // Present only for measurement="manual" plus numeric outcomeMeasure.
+        "value": 171.4            // optional typed outcome reading (T-10/T-19)
       }
     ],
     "review": [{ "from": "user" | "coach", "text": "wrap-up turns" }],
