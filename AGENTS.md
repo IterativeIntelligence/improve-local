@@ -67,8 +67,13 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "startedAt": "ISO timestamp",
     "goal": "the goal this trial serves",
     "title": "imperative card title",
+    // Optional accepted-card context retained so a kept habit can reopen why
+    // it fit and the linked evidence. Absent on trials accepted by older apps.
+    "why": "personalized rationale for this protocol",
     "how": "the exact protocol",
     "expect": "predicted outcome",
+    "evidence": "short research rationale (present only with refs)",
+    "refs": ["studyflow-study-id"],
     "trial": "trial plan sentence (length + success signal)",
     "days": 5,                    // calendar-length trial window
     // Optional reporting rhythm, distinct from how often the protocol itself
@@ -195,6 +200,14 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
       "outcome": "keep | reduce | repair | abandon | extend | replaced",
       "summary": "what happened vs. prediction, and the decision"
     },
+    // Kept-habit maintenance (optional on legacy data). nextSpotCheckAt is
+    // present while status="habit", names the exact promised check date, and
+    // advances after each maintenance check-in. Explicit retirement or an
+    // accepted restart changes status to "done", removes that date, and keeps
+    // the original keep verdict plus all history alongside these fields.
+    "nextSpotCheckAt": "YYYY-MM-DD",
+    "retiredAt": "ISO timestamp",
+    "retirementSummary": "why it left current practice",
     "supersedes": "id of the trial this one replaced (optional)"
   }
 ]
@@ -211,9 +224,11 @@ behavior failed. When `eligibility` is present, only matching weekdays inside
 the calendar-length window count toward catch-up spans, reminders, charts,
 forecasts, scoring, or review; all other dates are outside the plan, not
 misses. An absent `eligibility` retains the legacy every-calendar-day scope.
-`status: "habit"`
-means the user kept it and it is current practice; chains of `supersedes`
-show how a protocol evolved.
+`status: "habit"` means the user kept it and it is current practice; a
+`status: "done"` record with `retiredAt` is a previously kept habit whose
+successful verdict and history still stand. Chains of `supersedes` show how a
+protocol evolved. Habit check-ins are occasional maintenance spot-checks, not
+a streak.
 
 ### `data/health/` — granted Apple Health data (optional)
 
