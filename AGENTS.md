@@ -221,6 +221,30 @@ assuming. If the user opted their full genome into the repo,
 `node tools/modules.mjs run genomics lookup <rsid…>` answers genotype
 queries; report genotypes and sourced associations, never diagnoses.
 
+### `data/settings.json` — your answers to Improve's own questions (optional)
+
+```jsonc
+{
+  // Standing, all-or-nothing consent to share anonymized StudyFlow records
+  // of your COMPLETED trials into Improve's private research corpus.
+  // Absent or false: nothing is shared. Set it on the site's /data page or
+  // edit + push. Turning it on exports your whole completed-trial history
+  // (all-or-nothing by design, so shared evidence can't select on wins).
+  "shareTrials": true,
+  "shareTrialsAt": "ISO timestamp"    // when the answer last changed
+}
+```
+
+### `data/studyflow-export.json` — what left this repo (server-written)
+
+When `shareTrials` is on, the server exports one anonymized StudyFlow
+record per completed trial (standardized facts only — concept-coded
+exposure/outcome, window dates, measurement statistics, adherence counts,
+and the verdict as a continuation outcome; never your goals, notes, or
+conversations). This file maps trial id → `{ "studyId", "at" }`, and your
+own byte-exact copy of each shared record lands in `library/<studyId>.study`
+(so it also renders at `/study/<studyId>` for you).
+
 ### `data/library/` — your personal study library (optional)
 
 Papers you (or your agents) have ingested for yourself, in the StudyFlow
