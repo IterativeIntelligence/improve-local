@@ -71,6 +71,10 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "expect": "predicted outcome",
     "trial": "trial plan sentence (length + success signal)",
     "days": 5,                    // planned length
+    // Optional reporting rhythm, distinct from how often the protocol itself
+    // happens. One of daily, twice_weekly, weekly; absent legacy data means
+    // daily. Sparse schedules always include the final trial day.
+    "checkInCadence": "daily" | "twice_weekly" | "weekly",
     "risk": "likeliest derailer (premortem)",
     "fallback": "minimum version for a hard day",
     // Optional: Apple Health metric that measures this trial's outcome
@@ -82,6 +86,8 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     // is the user's recorded answer — absent means never answered, and no
     // client schedules anything then. remindAt/remindText are the coach's
     // proposed nudge plan (time may be user-adjusted; kept even on "no").
+    // Opted-in nudges follow checkInCadence, never every calendar day when
+    // the trial uses a sparse rhythm.
     "reminders": "yes" | "no",
     "remindAt": "17:00",          // 24-hour HH:MM
     "remindText": "one-line nudge text",
@@ -91,7 +97,7 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "remindChannel": "app" | "imessage",
     "remindPhone": "+15550100100",
     // Optional: how the outcome gets read. "manual" = the user types a
-    // reading with the daily tap (see checkIns[].value), "health" = the
+    // reading with each scheduled tap (see checkIns[].value), "health" = the
     // iPhone app's Apple Health share, "none" = judged by feel at wrap-up.
     // Absent = the question was never asked (older trials).
     "measurement": "manual" | "health" | "none",
@@ -124,6 +130,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // context but excluded from adherence, streaks, and success claims.
         "label": "Yes | Partly | Not today | No opportunity | Every day | Most days | …",
         "days": 2,                // how many days this one tap covers
+        // Present on sparse-cadence trials: the scheduled trial-day report
+        // this row answers (for example 4, 7, 11… for twice_weekly).
+        "scheduledDay": 4,
         // note/value are absent for "No opportunity": there was no barrier
         // to explain and no protocol-linked outcome reading to attribute.
         "note": "what got in the way (optional)",
@@ -144,7 +153,11 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
 
 Useful derived facts: adherence comes from applicable `checkIns` (labels
 weighted by `days`); `No opportunity` spans are neutral and stay outside the
-denominator rather than counting as success or failure. `status: "habit"`
+denominator rather than counting as success or failure. For sparse
+`checkInCadence`, only scheduled opportunities count toward tracking progress
+and reminder/analytics denominators; calendar days between them are not misses,
+and an unreported scheduled check-in is missing data rather than proof the
+behavior failed. `status: "habit"`
 means the user kept it and it is current practice; chains of `supersedes`
 show how a protocol evolved.
 
