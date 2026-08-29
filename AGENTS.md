@@ -163,6 +163,11 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     // yAxis units: day 0 = baseline, last day = horizonDays; the wrap-up
     // scores typed readings against this band.
     "forecast": [{ "day": 0, "low": 142, "high": 142 }, { "day": 90, "low": 133, "high": 138 }],
+    // Optional: where the charted quantity's data comes from (SPECS.md
+    // T-22) — computed from the check-in taps, typed by the person
+    // (numeric outcomeMeasure), or read passively from Apple Health
+    // (metric). Absent on trials accepted before the field existed.
+    "yAxisSource": "checkins" | "readings" | "health",
     "baselineLabel": "≈142 systolic, morning avg",
     "need": 8,
     "checkIns": [
