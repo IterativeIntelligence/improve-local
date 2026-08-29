@@ -119,8 +119,13 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "checkIns": [
       {
         "at": "ISO timestamp",
-        "label": "Yes | Partly | Not today | Every day | Most days | …",
+        // "No opportunity" is the neutral value for a closed/non-work day
+        // when the protocol had no valid chance to happen. It is stored as
+        // context but excluded from adherence, streaks, and success claims.
+        "label": "Yes | Partly | Not today | No opportunity | Every day | Most days | …",
         "days": 2,                // how many days this one tap covers
+        // note/value are absent for "No opportunity": there was no barrier
+        // to explain and no protocol-linked outcome reading to attribute.
         "note": "what got in the way (optional)",
         "value": 171.4            // optional typed outcome reading (T-10)
       }
@@ -137,9 +142,11 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
 ]
 ```
 
-Useful derived facts: adherence comes from `checkIns` (labels weighted by
-`days`); `status: "habit"` means the user kept it and it is current
-practice; chains of `supersedes` show how a protocol evolved.
+Useful derived facts: adherence comes from applicable `checkIns` (labels
+weighted by `days`); `No opportunity` spans are neutral and stay outside the
+denominator rather than counting as success or failure. `status: "habit"`
+means the user kept it and it is current practice; chains of `supersedes`
+show how a protocol evolved.
 
 ### `data/health/` — granted Apple Health data (optional)
 
