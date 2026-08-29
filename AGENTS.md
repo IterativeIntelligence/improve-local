@@ -70,11 +70,19 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "how": "the exact protocol",
     "expect": "predicted outcome",
     "trial": "trial plan sentence (length + success signal)",
-    "days": 5,                    // planned length
+    "days": 5,                    // calendar-length trial window
     // Optional reporting rhythm, distinct from how often the protocol itself
     // happens. One of daily, twice_weekly, weekly; absent legacy data means
     // daily. Sparse schedules always include the final trial day.
     "checkInCadence": "daily" | "twice_weekly" | "weekly",
+    // Optional behavior-opportunity scope, distinct from reporting cadence.
+    // The label is the user's accepted phrase; weekdays use lowercase
+    // sun/mon/tue/wed/thu/fri/sat. Only these dates inside the calendar
+    // window count. Absent legacy data means every calendar day is eligible.
+    "eligibility": {
+      "label": "non-cafe mornings",
+      "weekdays": ["sun", "mon", "wed", "fri"]
+    },
     "risk": "likeliest derailer (premortem)",
     "fallback": "minimum version for a hard day",
     // Optional: Apple Health metric that measures this trial's outcome
@@ -86,8 +94,8 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     // is the user's recorded answer — absent means never answered, and no
     // client schedules anything then. remindAt/remindText are the coach's
     // proposed nudge plan (time may be user-adjusted; kept even on "no").
-    // Opted-in nudges follow checkInCadence, never every calendar day when
-    // the trial uses a sparse rhythm.
+    // Opted-in nudges follow checkInCadence and eligibility, never calendar
+    // dates outside the server-derived check-in schedule.
     "reminders": "yes" | "no",
     "remindAt": "17:00",          // 24-hour HH:MM
     "remindText": "one-line nudge text",
@@ -129,7 +137,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // when the protocol had no valid chance to happen. It is stored as
         // context but excluded from adherence, streaks, and success claims.
         "label": "Yes | Partly | Not today | No opportunity | Every day | Most days | …",
-        // Elapsed span this one tap covers, never a completion count.
+        // Elapsed span this one tap covers, never a completion count. For an
+        // eligibility-scoped trial this counts eligible opportunities, not
+        // the calendar dates between them.
         "days": 2,
         // Canonical meaning of the whole span. Older rows may omit this;
         // derive it from label. Only Yes/Every day are "did". Partly,
@@ -137,8 +147,9 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
         // whose exact day-by-day completions are unknown. No opportunity is
         // "not_applicable" and stays outside adherence denominators.
         "adherence": "did" | "partial" | "missed" | "not_applicable",
-        // Present on sparse-cadence trials: the scheduled trial-day report
-        // this row answers (for example 4, 7, 11… for twice_weekly).
+        // Present on sparse-cadence and eligibility-scoped trials: the
+        // scheduled trial-day report this row answers (for example 4, 7,
+        // 11… for twice_weekly, or an eligible daily opportunity).
         "scheduledDay": 4,
         // note/value are absent for "No opportunity": there was no barrier
         // to explain and no protocol-linked outcome reading to attribute.
@@ -165,7 +176,11 @@ denominator rather than counting as success or failure. For sparse
 `checkInCadence`, only scheduled opportunities count toward tracking progress
 and reminder/analytics denominators; calendar days between them are not misses,
 and an unreported scheduled check-in is missing data rather than proof the
-behavior failed. `status: "habit"`
+behavior failed. When `eligibility` is present, only matching weekdays inside
+the calendar-length window count toward catch-up spans, reminders, charts,
+forecasts, scoring, or review; all other dates are outside the plan, not
+misses. An absent `eligibility` retains the legacy every-calendar-day scope.
+`status: "habit"`
 means the user kept it and it is current practice; chains of `supersedes`
 show how a protocol evolved.
 
