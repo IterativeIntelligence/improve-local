@@ -289,6 +289,18 @@ queries; report genotypes and sourced associations, never diagnoses.
 }
 ```
 
+### `data/plugins.json` — account-wide plugin consent ledger (optional)
+
+Server-written state for supported Improve plugins. Each entry is keyed by
+Improve's stable plugin id and records consent milestones such as install,
+authorization, or decline timestamps plus non-secret runtime package/app ids.
+Installation and authorization apply to the whole Improve user account even
+when the coach proposed the plugin for one particular goal. The file never
+contains OAuth tokens, API keys, cookies, or other credentials; those remain in
+the server's user-isolated credential store. Treat this ledger as inspectable
+consent history and do not infer that a plugin is usable unless its entry says
+authorization completed.
+
 ### `data/studyflow-export.json` — what left this repo (server-written)
 
 When `shareTrials` is on, the server exports one anonymized StudyFlow
