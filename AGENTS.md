@@ -301,6 +301,25 @@ the server's user-isolated credential store. Treat this ledger as inspectable
 consent history and do not infer that a plugin is usable unless its entry says
 authorization completed.
 
+### `data/plugin/` — the Improve plugin's conversation record (optional, server-written)
+
+Written when you use Improve as a ChatGPT / Codex / Claude plugin connected
+to this account (the plugin's cards call meetimprove.com directly).
+
+- `plugin/events.ndjson` — append-only, one JSON object per line:
+  `{ "at": ISO time, "kind": ..., "data": ... }`. Kinds: `question_card`,
+  `suggestion_card`, `verdict_card` (what the coach rendered, exact card
+  fields), `answers` (what you tapped or typed on a question card),
+  `decision` (Adjust / Another idea / a verdict chip), `trial_accepted`
+  (the trial the card started; its `id` matches an entry in `trials.json`).
+- `plugin/state.json` — a small current-state snapshot: `goal`,
+  `lastQuestions`, `lastSuggestion`, `lastVerdict`, `lastAnswers`,
+  `activeTrialId`, `updatedAt`.
+
+Trials accepted from the plugin live in `trials.json` like any other trial,
+and the goal gets a `history.json` entry with the intake answers the card
+recorded. Additive only; never edit by hand.
+
 ### `data/studyflow-export.json` — what left this repo (server-written)
 
 When `shareTrials` is on, the server exports one anonymized StudyFlow
