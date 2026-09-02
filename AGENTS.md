@@ -309,11 +309,17 @@ to this account (the plugin's cards call meetimprove.com directly).
 - `plugin/events.ndjson` — append-only, one JSON object per line:
   `{ "at": ISO time, "kind": ..., "data": ... }`. Kinds: `question_card`,
   `suggestion_card`, `verdict_card` (what the coach rendered, exact card
-  fields), `answers` (what you tapped or typed on a question card),
+  fields), `answers` (one batch of answers: `context`, and per question
+  `question`, `answers`, `source` = `chips` | `typed` | `mixed`, `asked` =
+  `native` | `card` | `prose`, `askedAt`, `answeredAt`, and `seconds`
+  between them — how the question was answered and how long it took),
   `decision` (Adjust / Another idea / a verdict chip), `trial_accepted`
   (the trial the card started; its `id` matches an entry in `trials.json`).
+  Events carry a `conversation` id when the conversation started before
+  the account was connected; that record was folded in at Try this.
 - `plugin/state.json` — a small current-state snapshot: `goal`,
-  `lastQuestions`, `lastSuggestion`, `lastVerdict`, `lastAnswers`,
+  `conversation`, `lastQuestions`, `lastSuggestion`, `lastVerdict`,
+  `lastAnswers`, `answers` (every recorded batch, oldest first),
   `activeTrialId`, `updatedAt`.
 
 Trials accepted from the plugin live in `trials.json` like any other trial,
