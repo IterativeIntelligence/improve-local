@@ -145,6 +145,15 @@ and `trials.json`; don't edit snapshots by hand. Oldest snapshots past
     "outcomeMeasure":
       { "type": "boolean", "metric": "named mark before noon" }
       | { "type": "number", "metric": "morning weight", "unit": "lb" },
+    // Numeric outcomeMeasure may also include optional success, frozen at
+    // acceptance: {baseline: number, minimumChange: positive number,
+    // direction: "up" | "down", windowDays: positive integer,
+    // minReadings: positive integer, minAdherence: fraction in (0, 1]}.
+    // The baseline is measured, the delta is meaningful change in the same
+    // unit, and windowDays is the final outcome window. Verify from distinct
+    // daily manual readings plus planned applicable adherence. Never add or
+    // rewrite these criteria after seeing results. Absence stays unverified;
+    // a keep/reduce verdict does not establish measured improvement.
     // Optional outcome-display fields carried from the accepted card, so
     // clients can show the target without the card: the expected outcome
     // ("−3–5 lb"), the horizon question ("weigh-ins down?"), days until
